@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Zone;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
@@ -23,11 +24,16 @@ class Dashboard extends BaseDashboard
             ->schema([
                 Section::make()
                     ->schema([
-                        Select::make('businessCustomersOnly')
-                            ->boolean(),
+                    /*     Select::make('businessCustomersOnly')
+                            ->boolean(), */
+                        Select::make('zone_id')->options(Zone::all()->pluck('libzon', 'id'))
+                            ->label('ZONE')
+                            ->required(),
                         DatePicker::make('startDate')
+                            ->label('DEBUT')
                             ->maxDate(fn (Get $get) => $get('endDate') ?: now()),
                         DatePicker::make('endDate')
+                            ->label('FIN')
                             ->minDate(fn (Get $get) => $get('startDate') ?: now())
                             ->maxDate(now()),
                     ])

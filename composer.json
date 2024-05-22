@@ -15,6 +15,7 @@
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
+        "malzariey/filament-daterangepicker-filter": "^2.6",
         "stechstudio/filament-impersonate": "^3.8",
         "tomatophp/filament-users": "^1.0",
         "wildside/userstamps": "^2.4"

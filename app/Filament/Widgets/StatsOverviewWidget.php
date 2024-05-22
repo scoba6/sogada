@@ -24,7 +24,7 @@ class StatsOverviewWidget extends BaseWidget
             Carbon::parse($this->filters['endDate']) :
             now();
 
-        $isBusinessCustomersOnly = $this->filters['businessCustomersOnly'] ?? null;
+        $isBusinessCustomersOnly = $this->filters['zone_id'] ?? null;
         $businessCustomerMultiplier = match (true) {
             boolval($isBusinessCustomersOnly) => 2 / 3,
             blank($isBusinessCustomersOnly) => 1,
@@ -33,11 +33,11 @@ class StatsOverviewWidget extends BaseWidget
 
         $diffInDays = $startDate ? $startDate->diffInDays($endDate) : 0;
 
-        $revenue = (int) (($startDate ? ($diffInDays * 137) : 192100) * $businessCustomerMultiplier);
-        $newCustomers = (int) (($startDate ? ($diffInDays * 7) : 1340) * $businessCustomerMultiplier);
-        $newOrders = (int) (($startDate ? ($diffInDays * 13) : 3543) * $businessCustomerMultiplier);
+        $ponte = (int) (($startDate ? ($diffInDays * 137) : 192100) * $businessCustomerMultiplier);
+        $casse = (int) (($startDate ? ($diffInDays * 7) : 1340) * $businessCustomerMultiplier);
+        $mort = (int) (($startDate ? ($diffInDays * 13) : 3543) * $businessCustomerMultiplier);
 
-        $formatNumber = function (int $number): string {
+        /* $formatNumber = function (int $number): string {
             if ($number < 1000) {
                 return (string) Number::format($number, 0);
             }
@@ -48,23 +48,23 @@ class StatsOverviewWidget extends BaseWidget
 
             return Number::format($number / 1000000, 2) . 'm';
         };
-
+ */
         return [
-            Stat::make('Revenue', '$' . $formatNumber($revenue))
-                ->description('32k increase')
+            Stat::make('TAUX DE PONTE', $ponte.' %')
+                //->description('5% en augmentation')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('success'),
-            Stat::make('New customers', $formatNumber($newCustomers))
-                ->description('3% decrease')
+            Stat::make('TAUX DE CASSE', $casse.' %')
+                //->description('3% en baisse')
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->chart([17, 16, 14, 15, 14, 13, 12])
                 ->color('danger'),
-            Stat::make('New orders', $formatNumber($newOrders))
-                ->description('7% increase')
+            Stat::make('TAUX DE MORTALITE', $mort.' %')
+               // ->description('7% increase')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->chart([15, 4, 10, 2, 12, 4, 12])
-                ->color('success'),
+                ->color('danger'),
         ];
     }
 }
