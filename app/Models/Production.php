@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Models\Planpro;
 use Wildside\Userstamps\Userstamps;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 
 class Production extends Model
 {
@@ -35,6 +40,19 @@ class Production extends Model
     {
         return $this->belongsTo(Batiment::class);
     }
+
+    /**
+     * Get the user associated with the Production
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function planpro(): HasoNe
+    {
+        return $this->hasOne(Planpro::class);
+    }
+
+
+
 
 
 

@@ -30,9 +30,11 @@ class Dashboard extends BaseDashboard
                             ->label('ZONE')
                             ->required(),
                         DatePicker::make('startDate')
+                            ->default(now())
                             ->label('DEBUT')
                             ->maxDate(fn (Get $get) => $get('endDate') ?: now()),
                         DatePicker::make('endDate')
+                            ->default(now())
                             ->label('FIN')
                             ->minDate(fn (Get $get) => $get('startDate') ?: now())
                             ->maxDate(now()),

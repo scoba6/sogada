@@ -17,7 +17,9 @@
         "livewire/livewire": "^3.4",
         "malzariey/filament-daterangepicker-filter": "^2.6",
         "stechstudio/filament-impersonate": "^3.8",
+        "tapp/filament-authentication-log": "3.1",
         "tomatophp/filament-users": "^1.0",
+        "torann/geoip": "^3.0",
         "wildside/userstamps": "^2.4"
     },
     "require-dev": {

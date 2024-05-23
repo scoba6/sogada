@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::create('planpros', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('production_id')->constrained('productions')->default(0);
+            $table->foreignId('vaccin_id')->constrained('vaccins')->default(0);
+            $table->integer('dosepr')->nullable(false)->default(0);
             $table->timestamps();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stocks');
+        Schema::dropIfExists('planpros');
     }
 };

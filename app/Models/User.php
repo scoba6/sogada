@@ -8,10 +8,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Edwink\FilamentUserActivity\Traits\UserActivityTrait;
+use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, UserActivityTrait;
+    use HasFactory, Notifiable, HasRoles, UserActivityTrait,
+    AuthenticationLoggable;
 
     /**
      * The attributes that are mass assignable.

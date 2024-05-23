@@ -4,9 +4,9 @@ namespace App\Providers\Filament;
 
 use Filament\Pages;
 use Filament\Panel;
-use App\Filament\Pages\Dashboard;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use App\Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
@@ -20,6 +20,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Edwink\FilamentUserActivity\FilamentUserActivityPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -64,7 +65,8 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
                 FilamentUserActivityPlugin::make(),
-                FilamentUsersPlugin::make()
+                FilamentUsersPlugin::make(),
+                //FilamentAuthenticationLogPlugin::make(),
             ]);
 
     }
