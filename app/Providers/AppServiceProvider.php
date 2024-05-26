@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Filament::serving(function () {
+        /* Filament::serving(function () {
             Filament::registerNavigationGroups([
                 NavigationGroup::make()
                     ->label('PRODUCTION')
@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
                     ->collapsed(true),
 
             ]);
-        });
+        }); */
 
     }
 }

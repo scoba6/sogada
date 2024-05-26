@@ -8,7 +8,9 @@ use Filament\Widgets;
 use Filament\PanelProvider;
 use App\Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
+use Filament\Navigation\NavigationGroup;
 use Filament\Http\Middleware\Authenticate;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
@@ -62,11 +64,34 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('PRODUCTION'),
+                NavigationGroup::make()
+                    ->label('GESTION DES STOCKS'),
+                NavigationGroup::make()
+                    ->label('PARAMETRES'),
+                NavigationGroup::make()
+                    ->label('ADMINISTRATION')
+                    ->collapsed(true),
+            ])
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
                 FilamentUserActivityPlugin::make(),
                 FilamentUsersPlugin::make(),
-                //FilamentAuthenticationLogPlugin::make(),
+                FilamentAuthenticationLogPlugin::make(),
+                BreezyCore::make()
+                    ->myProfile(
+                        shouldRegisterUserMenu: true, // Sets the 'account' link in the panel User Menu (default = true)
+                        shouldRegisterNavigation: false, // Adds a main navigation item for the My Profile page (default = false)
+                        navigationGroup: 'ADMINISTRATION', // Sets the navigation group for the My Profile page (default = null)
+                        hasAvatars: true, // Enables the avatar upload form component (default = false)
+                        slug: 'my-profile' // Sets the slug for the profile page (default = 'my-profile')
+                    )
+                    ->enableTwoFactorAuthentication(
+                        force: false, // force the user to enable 2FA before they can use the application (default = false)
+                        //action: CustomTwoFactorPage::class // optionally, use a custom 2FA page
+                    )
             ]);
 
     }
