@@ -13,8 +13,10 @@ class Produit extends Model
     use HasFactory, Userstamps,SoftDeletes;
 
     protected $fillable = [
+        'groupe_id',
         'libpro',
         'codbar',
+        'ugspro',
         'imgpro',
         'seupro',
         'vstock',
@@ -28,6 +30,6 @@ class Produit extends Model
      */
     public function groupe(): BelongsTo
     {
-        return $this->belongsTo(Groupe::class);
+        return $this->belongsTo(Groupe::class,'groupe_id','id');
     }
 }

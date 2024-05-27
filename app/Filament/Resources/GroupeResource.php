@@ -21,13 +21,16 @@ class GroupeResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Groupes';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('libgrp')->columnSpan('full')
+                ->required()
+                ->maxLength(100)
+                ->label('GROUPE'),
             ]);
     }
 
@@ -35,7 +38,9 @@ class GroupeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('libgrp')
+                ->searchable()
+                ->label('GROUPE')
             ])
             ->filters([
                 //

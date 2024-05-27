@@ -14,12 +14,16 @@ return new class extends Migration
     {
         Schema::create('produits', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('groupe_id')->constrained('groupes')->default(0);
             $table->string('libpro')->nullable(false)->default('libpro');
-            $table->string('codbar')->nullable(false)->default('codbar');
+            $table->string('despro')->nullable(true)->default('desc');
             $table->string('imgpro')->nullable();
+            $table->string('ugspro')->unique()->nullable();
+            $table->string('codbar')->unique()->nullable();
             $table->integer('seupro')->nullable(false)->default(1);
             $table->integer('vstock')->nullable(false)->default(0);
-            $table->enum('statut', [ProdStatut::DIS, ProdStatut::IND])->default(ProdStatut::DIS)->nullable(false)->default(0)->change();
+            $table->date('datval')->nullable(false)->default(now());
+            $table->boolean('statut')->nullable(false)->default(true);
             $table->timestamps();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
