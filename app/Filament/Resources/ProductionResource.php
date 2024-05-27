@@ -237,12 +237,15 @@ class ProductionResource extends Resource
                 Forms\Components\TextInput::make('dosepr')
                     ->label('Dose')
                     ->numeric()
+                    ->minValue(1)
                     ->default(1)
                     ->required(),
             ])
             ->defaultItems(4)
+            ->deletable(false)
             ->addActionLabel('Ajouter un vaccin')
             ->hiddenLabel()
+            ->grid(2)
             ->columns([
                 'md' => 2,
             ])

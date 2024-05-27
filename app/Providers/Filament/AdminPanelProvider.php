@@ -17,7 +17,9 @@ use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Swis\Filament\Backgrounds\ImageProviders\MyImages;
 use Filament\Http\Middleware\DisableBladeIconComponents;
+use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Edwink\FilamentUserActivity\FilamentUserActivityPlugin;
@@ -80,6 +82,11 @@ class AdminPanelProvider extends PanelProvider
                 FilamentUserActivityPlugin::make(),
                 FilamentUsersPlugin::make(),
                 FilamentAuthenticationLogPlugin::make(),
+                FilamentBackgroundsPlugin::make()
+                ->imageProvider(
+                    MyImages::make()
+                        ->directory('images/sogada')
+                ),
                 BreezyCore::make()
                     ->myProfile(
                         shouldRegisterUserMenu: true, // Sets the 'account' link in the panel User Menu (default = true)

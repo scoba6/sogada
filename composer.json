@@ -21,6 +21,7 @@
         "psr/simple-cache": "2.0",
         "pxlrbt/filament-excel": "^2.3",
         "stechstudio/filament-impersonate": "^3.8",
+        "swisnl/filament-backgrounds": "^1.1",
         "tapp/filament-authentication-log": "3.1",
         "tomatophp/filament-users": "^1.0",
         "torann/geoip": "^3.0",
