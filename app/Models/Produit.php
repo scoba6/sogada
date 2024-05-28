@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Wildside\Userstamps\Userstamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,7 +20,7 @@ class Produit extends Model
         'ugspro',
         'imgpro',
         'seupro',
-        'vstock',
+        //'vstock',
         'statut'
     ];
 
@@ -31,5 +32,15 @@ class Produit extends Model
     public function groupe(): BelongsTo
     {
         return $this->belongsTo(Groupe::class,'groupe_id','id');
+    }
+
+    /**
+     * Get all of the comments for the Produit
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function stock(): HasMany
+    {
+        return $this->hasMany(Prostock::class);
     }
 }

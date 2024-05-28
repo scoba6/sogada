@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ProduitResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProduitResource\RelationManagers;
+use App\Filament\Resources\ProduitResource\RelationManagers\StockRelationManager;
+use App\Filament\Resources\ProduitResource\Widgets\ProduitStat;
 use App\Models\Groupe;
 
 class ProduitResource extends Resource
@@ -38,7 +40,7 @@ class ProduitResource extends Resource
                                 ->required()
                                 ->maxLength(255)
                                 ->columnSpan('full'),
-                            Forms\Components\MarkdownEditor::make('description')
+                            Forms\Components\MarkdownEditor::make('despro')->label('DESCRIPTION')
                                 ->columnSpan('full'),
                         ])
                         ->columns(2),
@@ -56,21 +58,20 @@ class ProduitResource extends Resource
                                 ->label('UGS (Unité de Gestion de Stock)')
                                 ->unique(Produit::class, 'ugspro', ignoreRecord: true)
                                 ->maxLength(255),
-                            // ->required(),
 
                             Forms\Components\TextInput::make('codbar')
                                 ->label('CODE BARRE (UPC, EAN, etc.)')
                                 ->unique(Produit::class, 'codbar', ignoreRecord: true)
                                 ->maxLength(255),
-                                //->required(),
 
                             Forms\Components\TextInput::make('seupro')->label('SEUIL')
                                 //->helperText('The safety stock is the limit stock for your products which alerts you if the product stock will soon be out of stock.')
                                 ->numeric()
                                 ->minValue(1)
-                                //->rules(['integer', 'min:0'])
                                 ->required(),
-                    ])->columns(3),
+                            Forms\Components\TextInput::make('vstock')->label('VALEUR DU STOCK')
+                                ->disabled(),
+                    ])->columns(2),
 
                 ])
                 ->columnSpan(['lg' => 2]),
@@ -81,12 +82,9 @@ class ProduitResource extends Resource
                         ->schema([
                             Forms\Components\Toggle::make('statut')
                                 ->label('Disponible')
-                                //->helperText('This product will be hidden from all sales channels.')
                                 ->default(true),
                             Forms\Components\Select::make('groupe_id')
                                 ->relationship('groupe', 'libgrp')
-                               // ->options(Groupe::all()->pluck('libgrp', 'id'))
-                                //->multiple()
                                 ->required(),
                             Forms\Components\DatePicker::make('datval')
                                 ->label('Date de valeur')
@@ -113,7 +111,6 @@ class ProduitResource extends Resource
                 Tables\Columns\IconColumn::make('statut')->boolean()->label('DISPONIBILITE'),
                 Tables\Columns\TextColumn::make('datval')->label('DATE DE VALEUR')->datetime('d/m/Y'),
 
-
             ])
             ->filters([
                 //
@@ -131,7 +128,14 @@ class ProduitResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            StockRelationManager::class,
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            ProduitStat::class,
         ];
     }
 

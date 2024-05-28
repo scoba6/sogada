@@ -37,31 +37,7 @@ class ProductionResource extends Resource
 
     public static function form(Form $form): Form
     {
-       /*  return $form
-            ->schema([
-                DatePicker::make('datprd')->label('DATE DE PRODUCTION')->displayFormat('d/m/Y')->required()->columnSpan('full')
-                    ->default(now())
-                    ->readOnly(true),
-                Select::make('zone_id')->label('ZONE')->required()->options(Zone::all()->pluck('libzon', 'id'))->searchable(),
-                Select::make('batiment_id')->label('BATIMENT')->required()->options(Batiment::all()->pluck('libbat', 'id'))->searchable(),
-                TextInput::make('agepou')->label('AGE DES POULES')->numeric()->required()->minValue(1),
-                TextInput::make('nbrpou')->label('NOMBRE DE POULES')->numeric()->required()->minValue(1),
-                TextInput::make('prdjrn')->label('PRODUCTION JOURNALIERE')->integer()->minValue(1)
-                    ->numeric()
-                    ->reactive()
-                    ->required()
-                    ->afterStateUpdated(function (\Filament\Forms\Set $set, Get $get, $state) {
-                        (int) $prdjrn = $get('prdjrn'); //Production journalière
-                        (int) $nbtcrt = (int) $prdjrn/360; //Calcul du nombre de cartons
-                        $set('nbrcrt', $nbtcrt); //Affection
-                    }),
-                TextInput::make('nbrcrt')->label('NOMBRE DE CARTONS')->numeric()->readOnly(true),
-                TextInput::make('nbrcas')->label('OEUFS CASSES')->numeric()->required(),
-                TextInput::make('nbrdcd')->label('POULES DCD ')->numeric()->required(),
-                TextInput::make('cnsali')->label('CONSOMMATION ALIMENT')->numeric()->required(),
-                TextInput::make('nbrsac')->label('NOMBRE DE SAC')->numeric()->required()->disabled(),
-            ]); */
-
+       
         return $form
             ->schema([
                 Forms\Components\Group::make()
