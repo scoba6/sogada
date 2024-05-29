@@ -2,6 +2,8 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Produit;
+use App\Models\Prostock;
 use Carbon\Carbon;
 use App\Models\Stock;
 use Flowframe\Trend\Trend;
@@ -22,7 +24,7 @@ class StockMensuelle extends ChartWidget
         $fromDate = $this->fromDate ??= now()->startOfYear(); //subWeek();
         $toDate = $this->toDate ??= now();
 
-        $data = Trend::model(Stock::class)
+        $data = Trend::model(Prostock::class)
         ->between(
             //start: now()->startOfYear(),
             //end: now()->endOfYear(),
