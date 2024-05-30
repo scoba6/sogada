@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.2",
         "bezhansalleh/filament-shield": "^3.2",
+        "doctrine/dbal": "^3.8",
         "edwink/filament-user-activity": "^1.0",
         "filament/filament": "^3.2",
         "flowframe/laravel-trend": "^0.2.0",
@@ -18,8 +19,10 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "malzariey/filament-daterangepicker-filter": "^2.6",
+        "njxqlus/filament-progressbar": "^1.0",
         "psr/simple-cache": "2.0",
         "pxlrbt/filament-excel": "^2.3",
+        "shuvroroy/filament-spatie-laravel-health": "^2.0",
         "stechstudio/filament-impersonate": "^3.8",
         "swisnl/filament-backgrounds": "^1.1",
         "tapp/filament-authentication-log": "3.1",

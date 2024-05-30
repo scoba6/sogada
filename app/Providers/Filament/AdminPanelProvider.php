@@ -22,9 +22,12 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin;
 use Edwink\FilamentUserActivity\FilamentUserActivityPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use ShuvroRoy\FilamentSpatieLaravelHealth\Pages\HealthCheckResults;
 use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
+use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -82,6 +85,9 @@ class AdminPanelProvider extends PanelProvider
                 FilamentUserActivityPlugin::make(),
                 FilamentUsersPlugin::make(),
                 FilamentAuthenticationLogPlugin::make(),
+                FilamentProgressbarPlugin::make()->color('#29b'),
+                FilamentSpatieLaravelHealthPlugin::make()
+                    ->usingPage(HealthCheckResults::class),
                 FilamentBackgroundsPlugin::make()
                 ->imageProvider(
                     MyImages::make()

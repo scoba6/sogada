@@ -37,7 +37,7 @@ class ProductionResource extends Resource
 
     public static function form(Form $form): Form
     {
-       
+
         return $form
             ->schema([
                 Forms\Components\Group::make()
@@ -188,7 +188,10 @@ class ProductionResource extends Resource
             TextInput::make('nbrcrt')->label('NOMBRE DE CARTONS')->numeric()->readOnly(true),
             TextInput::make('nbrcas')->label('OEUFS CASSES')->numeric()->required(),
             TextInput::make('nbrdcd')->label('POULES DCD ')->numeric()->required(),
-            TextInput::make('cnsali')->label('CONSOMMATION ALIMENT')->numeric()->required(),
+            TextInput::make('cnsali')->label('CONSOMMATION ALIMENT')
+                ->minValue(1)
+                ->numeric()
+                ->required(),
             TextInput::make('nbrsac')->label('NOMBRE DE SAC')->numeric()->required(),
             Forms\Components\MarkdownEditor::make('notes')
                 ->columnSpan('full'),
@@ -205,7 +208,6 @@ class ProductionResource extends Resource
                     ->options(Vaccin::query()->pluck('libvac', 'id'))
                     ->required()
                     ->reactive()
-                    //->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', Product::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->searchable(),
