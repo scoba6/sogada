@@ -22,8 +22,8 @@ return new class extends Migration
             $table->integer('prdjrn')->nullable(false)->default(0); //prduction journalière
             $table->integer('nbrcas')->nullable(false)->default(0); //Nombre d'oeufs cassés
             $table->integer('nbrdcd')->nullable(false)->default(0); //Nombre de poules dcd
-            $table->integer('cnsali')->nullable(false)->default(0); // Consommation d'aliment
-            $table->integer('nbrsac')->nullable(false)->default(0); // Nbre de sac
+            $table->integer('cnsali')->nullable()->default(0); // Consommation d'aliment
+            $table->integer('nbrsac')->nullable()->default(0); // Nbre de sac
             $table->string('notes')->nullable(false)->default(0);
             $table->timestamps();
             $table->unsignedBigInteger('created_by')->nullable();

@@ -67,6 +67,14 @@ class CreateProduction extends CreateRecord
                         ProductionResource::getItemsRepeater(),
                     ]),
                 ]),
+
+            Step::make('CONSOMMATION PRODUITS')
+                ->schema([
+                    Section::make()->schema([
+                        ProductionResource::getItemsProduitRepeater(),
+                    ]),
+                ]),
+
         ];
     }
 

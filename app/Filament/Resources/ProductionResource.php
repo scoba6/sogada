@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Zone;
 use Filament\Tables;
 use App\Models\Vaccin;
+use App\Models\Produit;
 use Filament\Forms\Get;
 use App\Models\Batiment;
 use Filament\Forms\Form;
@@ -14,11 +15,14 @@ use App\Models\Production;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProductionResource\Pages;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
@@ -47,17 +51,26 @@ class ProductionResource extends Resource
                             ->columns(2),
 
                         Forms\Components\Section::make('PLAN PROPHYLAXIQUE')
-                            ->headerActions([
+                             /* ->headerActions([
                                 Action::make('Reinitialiser')
                                     ->modalHeading('En êtes vous sûe?')
                                     ->modalDescription('Tous les plans seront réinitialisés.')
                                     ->requiresConfirmation()
                                     ->color('danger')
                                     ->action(fn (Forms\Set $set) => $set('items', [])),
-                            ])
+                            ]) */
                             ->schema([
                                 static::getItemsRepeater(),
                             ]),
+
+                        Forms\Components\Section::make('CONSOMMATION')
+
+                            ->schema([
+                                static::getItemsProduitRepeater(),
+                            ]),
+
+
+
                     ])
                     ->columnSpan(['lg' => fn (?Production $record) => $record === null ? 3 : 2]),
 
@@ -114,14 +127,14 @@ class ProductionResource extends Resource
                     ->summarize([
                         Tables\Columns\Summarizers\Sum::make()
                     ]),
-                Tables\Columns\TextColumn::make('cnsali')->sortable()->label('CONSOMMATION ALIMENT')
+             /*    Tables\Columns\TextColumn::make('cnsali')->sortable()->label('CONSOMMATION ALIMENT')
                     ->summarize([
                         Tables\Columns\Summarizers\Sum::make()
                     ]),
                 Tables\Columns\TextColumn::make('nbrsac')->sortable()->label('NOMBRE DE SAC')
                     ->summarize([
                         Tables\Columns\Summarizers\Sum::make()
-                    ]),
+                    ]), */
             ])
             ->filters([
                 //Tables\Filters\TrashedFilter::make(),
@@ -186,14 +199,18 @@ class ProductionResource extends Resource
                     $set('nbrcrt', $nbtcrt); //Affection
                 }),
             TextInput::make('nbrcrt')->label('NOMBRE DE CARTONS')->numeric()->readOnly(true),
-            TextInput::make('nbrcas')->label('OEUFS CASSES')->numeric()->required(),
-            TextInput::make('nbrdcd')->label('POULES DCD ')->numeric()->required(),
-            TextInput::make('cnsali')->label('CONSOMMATION ALIMENT')
-                ->minValue(1)
+            TextInput::make('nbrcas')->label('OEUFS CASSES')
                 ->numeric()
+                ->minValue(1)
                 ->required(),
-            TextInput::make('nbrsac')->label('NOMBRE DE SAC')->numeric()->required(),
-            Forms\Components\MarkdownEditor::make('notes')
+            TextInput::make('nbrdcd')->label('POULES DCD ')
+                ->numeric()
+                ->minValue(1)
+                ->required(),
+            //TextInput::make('cnsali')->label('CONSOMMATION ALIMENT')
+            //TextInput::make('nbrsac')->label('NOMBRE DE SAC')
+
+            MarkdownEditor::make('notes')
                 ->columnSpan('full'),
         ];
     }
@@ -201,32 +218,67 @@ class ProductionResource extends Resource
     public static function getItemsRepeater(): Repeater
     {
         return Repeater::make('planpro')
-            ->relationship()
-            ->schema([
-                Forms\Components\Select::make('vaccin_id')
-                    ->label('Vaccin')
-                    ->options(Vaccin::query()->pluck('libvac', 'id'))
-                    ->required()
-                    ->reactive()
-                    ->distinct()
-                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                    ->searchable(),
+                    ->relationship()
+                    ->schema([
+                        Forms\Components\Select::make('vaccin_id')
+                            ->label('Vaccin')
+                            ->options(Vaccin::query()->pluck('libvac', 'id'))
+                            ->required()
+                            ->reactive()
+                            ->distinct()
+                            ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                            ->searchable(),
 
-                Forms\Components\TextInput::make('dosepr')
-                    ->label('Dose')
-                    ->numeric()
-                    ->minValue(1)
-                    ->default(1)
-                    ->required(),
-            ])
-            ->defaultItems(4)
-            ->deletable(false)
-            ->addActionLabel('Ajouter un vaccin')
-            ->hiddenLabel()
-            ->grid(2)
-            ->columns([
-                'md' => 2,
-            ])
-            ->required();
+                        Forms\Components\TextInput::make('dosepr')
+                            ->label('DOSE')
+                            ->numeric()
+                            ->minValue(0)
+                            ->default(1)
+                            ->required(),
+                    ])
+                    ->defaultItems(4)
+                    ->deletable(false)
+                    ->addActionLabel('Ajouter un vaccin')
+                    ->hiddenLabel()
+                    ->grid(2)
+                    ->columns([
+                        'md' => 2,
+                ])->required();
     }
+
+    public static function getItemsProduitRepeater(): Repeater
+    {
+        return Repeater::make('planconso')
+                    ->relationship()
+                    ->schema([
+                        Forms\Components\Select::make('produit_id')
+                            ->label('PRODUIT')
+                            ->options(Produit::query()->where('groupe_id','<>','2')->pluck('libpro', 'id'))
+                                ->required()
+                            ->reactive()
+                            ->distinct()
+                            ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                            ->searchable(),
+
+                        Forms\Components\TextInput::make('nbrsac')
+                            ->label('QTE')
+                            ->numeric()
+                            ->minValue(1)
+                            ->default(1)
+                            ->required(),
+                        ])->defaultItems(8)
+                            ->deletable(false)
+                            ->addActionLabel('Ajouter un produit')
+                            ->hiddenLabel()
+                            ->grid(2)
+                            ->required()
+                            ->columns([
+                                'md' => 2,
+                ]);
+
+    }
+
+
+
+
 }

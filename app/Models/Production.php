@@ -49,6 +49,17 @@ class Production extends Model
     public function planpro(): HasoNe
     {
         return $this->hasOne(Planpro::class);
+
+    }
+
+    /**
+     * Get the user associated with the Production
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function planconso(): HasOne
+    {
+        return $this->hasOne(Planconso::class);
     }
 
 
