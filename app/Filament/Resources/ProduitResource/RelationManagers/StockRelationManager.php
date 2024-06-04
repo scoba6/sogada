@@ -4,8 +4,11 @@ namespace App\Filament\Resources\ProduitResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Forms\Get;
+use App\Models\Prostock;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\DB;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -14,7 +17,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 class StockRelationManager extends RelationManager
 {
     protected static string $relationship = 'stock';
-    
+
 
     public function form(Form $form): Form
     {
@@ -26,7 +29,22 @@ class StockRelationManager extends RelationManager
                 Forms\Components\TextInput::make('qteapp')->label('QUANTITE')
                     ->required()
                     ->numeric()
-                    ->minValue(1),
+                    ->minValue(1)
+                    ->afterStateUpdated(function (RelationManager $livewire, \Filament\Forms\Set $set, Get $get) {
+                        $prd = $livewire->ownerRecord->id; //produit
+                        $stoAjt = $get('qteapp'); // Stock approvisinné
+                        $StoEnc = Prostock::where('produit_id','=',$prd)->get()->sum('qteapp'); // Stock en cours
+
+                        $vstock = $stoAjt + $StoEnc; // Stock total du produit
+
+                        //Maj de la valeur du stock du produit
+                        DB::table('produits')
+                            ->where('id', $prd)
+                            ->update(['vstock' => $vstock]);
+
+                        //dd($vstock);
+
+                    }),
                 Forms\Components\MarkdownEditor::make('desapp')->label('DESCRIPTION')
                     ->columnSpan('full'),
             ]);

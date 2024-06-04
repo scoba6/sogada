@@ -10,6 +10,10 @@ class EditProduit extends EditRecord
 {
     protected static string $resource = ProduitResource::class;
 
+    protected $listeners = [
+        'refreshForm' => '$refresh',
+    ];
+
     protected function getHeaderActions(): array
     {
         return [

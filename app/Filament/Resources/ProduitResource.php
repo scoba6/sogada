@@ -16,6 +16,7 @@ use App\Filament\Resources\ProduitResource\RelationManagers;
 use App\Filament\Resources\ProduitResource\RelationManagers\StockRelationManager;
 use App\Filament\Resources\ProduitResource\Widgets\ProduitStat;
 use App\Models\Groupe;
+use App\Models\Prostock;
 
 class ProduitResource extends Resource
 {
@@ -70,7 +71,11 @@ class ProduitResource extends Resource
                                 ->minValue(1)
                                 ->required(),
                             Forms\Components\TextInput::make('vstock')->label('VALEUR DU STOCK')
-                                ->disabled(),
+                                ->placeholder(
+                                    function ($state, $record) {
+                                        return Prostock::where('produit_id', $record->vstock)->get()->sum();
+                                    }
+                                )->disabled(),
                     ])->columns(2),
 
                 ])
